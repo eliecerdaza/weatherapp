@@ -22,8 +22,9 @@ class WeatherAdapter:
             "requested_time": datetime.datetime.fromtimestamp(dt).strftime("%Y-%m-%d %H:%M:%S")
         }
         if weather.get('forecast'):
-            # TODO check forecast dt and override requested_time
-            response["forecast"] = weather.get('forecast')
+            f_data = weather.get('forecast')
+            response["requested_time"] = f_data.pop('requested_time')
+            response["forecast"] = f_data
         return response
 
     def temperature(self, weather: dict) -> str:

@@ -1,4 +1,5 @@
 import logging
+import datetime
 import json
 import falcon
 from app.services import OpenWeatherService
@@ -45,4 +46,7 @@ class WeatherView:
     def _get_forecast(self, ws, coord:dict, day:int) -> dict:
         forecast_response = ws.get_forecast(coord['lat'], coord['lon'])
         forecast_data = forecast_response.json()
-        return forecast_data.get('daily')[day%7]
+        forecast = forecast_data.get('daily')[day%7]
+        now = datetime.datetime.now()
+        forecast["requested_time"] = now.strftime("%Y-%m-%d %H:%M:%S")
+        return forecast
