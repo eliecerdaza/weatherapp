@@ -8,6 +8,7 @@ class WeatherAdapter:
         humidity = weather.get('main', {}).get('humidity')
         sunrise = weather.get('sys', {}).get('sunrise')
         sunset = weather.get('sys', {}).get('sunset')
+        dt = weather.get('dt')
         response = {
             "location_name": f'{city}, {country}',
             "temperature": self.temperature(weather),
@@ -18,11 +19,14 @@ class WeatherAdapter:
             "sunrise": self.sunx(sunrise),
             "sunset": self.sunx(sunset),
             "geo_coordinates": self.geo_coordinates(weather),
-            "requested_time": datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+            "requested_time": datetime.datetime.fromtimestamp(dt).strftime("%Y-%m-%d %H:%M:%S")
         }
+        if weather.get('forecast'):
+            # TODO check forecast dt and override requested_time
+            response["forecast"] = weather.get('forecast')
         return response
 
-    def temperature(self, temperature:float) -> str:
+    def temperature(self, weather: dict) -> str:
         temp = weather.get('main', {}).get('temp')
         return f'{temp} ˚C'
 

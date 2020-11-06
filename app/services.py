@@ -5,9 +5,10 @@ class OpenWeatherService:
     def __init__(self):
         self.config = WEATHERAPI
 
-    def get_by_q(self, query):
+    def get_by_city_country(self, query):
+        url = f'{self.config["host"]}{self.config["path"]}'
         return requests.get(
-            url=self.config['host'],
+            url=url,
             params={
                 "q": query,
                 "appid": self.config['appid'],
@@ -15,12 +16,15 @@ class OpenWeatherService:
             }
         )
 
-    def get_by_location(self, location: list):
-        return self._get_by_q(
-            query=','.join(location)
-        )
-
-    def get_by_days(self, location, days):
-        return self._get_by_q(
-            query=','.join(location)
+    def get_forecast(self, lat: float, lon: float):
+        url = f'{self.config["host"]}{self.config["forecast"]}'
+        return requests.get(
+            url=url,
+            params={
+                "lat": lat,
+                "lon": lon,
+                "appid": self.config['appid'],
+                "units": 'metric',
+                "exclude": "hourly,current,minutely,alerts"
+            }
         )

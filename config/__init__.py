@@ -2,7 +2,7 @@ import falcon
 from falcon_caching import Cache
 from spectree import SpecTree
 from config.base import cache
-from app.views import WeatherViews
+from app.views import WeatherView
 
 app = falcon.API(middleware=cache.middleware)
 
@@ -15,5 +15,5 @@ api = SpecTree(
 
 app.add_route(
     '/weather',
-    WeatherViews()
+    WeatherView()
 )
