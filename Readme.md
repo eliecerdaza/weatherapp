@@ -26,3 +26,7 @@ You can get weather info doing a GET request to `/weather` and add the params `c
 ## Get forecast information
 You can get forecast information adding a `day` param to the above request.
 > day is a value between 0 and 6 where 0 is today and 6 is 6 days from today
+
+## Run unit tests
+You can run unit tests by running the following command
+> pytest app/tests.py
